@@ -6,13 +6,17 @@ class ExampleController extends Controller
 {
     public function homepage()
     {
-        return '<h1> Home Page!!</h1><a href="/about">go to about page</a>';
+
+        $myName = "Luca";
+        $animals = ["tiger", "leon", "elephant"];
+
+        return view('homepage', ["allAnimals" => $animals, "name" => $myName, "catName" => "Sissa"]);
 
     }
 
     public function about()
     {
-        return '<h1> About Page!!</h1><a href="/">Back Home</a>';
+        return view('single-post');
 
     }
 }
