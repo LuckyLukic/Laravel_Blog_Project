@@ -8,6 +8,24 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+
+    public function login(Request $request)
+    {
+        $incomingFields = $request->validate([
+            'loginusername' => 'required',
+            'loginpassword' => 'required'
+        ]);
+
+        if (auth()->attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) {
+            $request->session()->regenerate();
+            return 'Success';
+            // return redirect('/')->with('success', 'You have successfully logged in.');
+        } else {
+            return 'ops...';
+            //return redirect('/')->with('failure', 'Invalid login.');
+        }
+    }
+
     public function register(Request $request)
     {
         $incomingFields = $request->validate([
@@ -20,5 +38,15 @@ class UserController extends Controller
 
         User::create($incomingFields);
         return "utente registrato";
+    }
+
+    public function showCorrectHomepage()
+    {
+        if (auth()->check()) {
+            return view('homepage-feed');
+        } else {
+            return view('homepage');
+        }
+
     }
 }
