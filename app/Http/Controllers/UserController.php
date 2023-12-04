@@ -9,6 +9,12 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
 
+    public function logout()
+    {
+
+        auth()->logout();
+        return redirect('/')->with('success', 'You are logged out');
+    }
     public function login(Request $request)
     {
         $incomingFields = $request->validate([
@@ -18,11 +24,10 @@ class UserController extends Controller
 
         if (auth()->attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) {
             $request->session()->regenerate();
-            return 'Success';
-            // return redirect('/')->with('success', 'You have successfully logged in.');
+            return redirect('/')->with('success', 'You have successfully logged in');
         } else {
-            return 'ops...';
-            //return redirect('/')->with('failure', 'Invalid login.');
+
+            return redirect('/')->with('failure', 'Invalid login.');
         }
     }
 
@@ -36,8 +41,10 @@ class UserController extends Controller
 
         $incomingFields['password'] = bcrypt($incomingFields['password']);
 
-        User::create($incomingFields);
-        return "utente registrato";
+        $user = User::create($incomingFields);
+        auth()->login($user);
+
+        return redirect('/')->with('success', 'Account Created');
     }
 
     public function showCorrectHomepage()
