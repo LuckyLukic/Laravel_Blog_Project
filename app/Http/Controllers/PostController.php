@@ -38,6 +38,28 @@ class PostController extends Controller
         return view('single-post', ['post' => $post]);
     }
 
+    public function showEditForm(Post $post)
+    {
+        return view('edit-post', ['post' => $post]);
+    }
+
+    public function actuallyUpdate(Post $post, Request $request)
+    {
+
+        $incomingFields = $request->validate([
+            'title' => ['string', 'required'],
+            'body' => ['string,required[']
+        ]);
+
+        $incomingFields['title'] = strip_tags($incomingFields['title']); //sanitizing input by stripping HTML and PHP tags from a string
+        $incomingFields['body'] = strip_tags($incomingFields['body']);
+
+        $post->update($incomingFields);
+
+        return back()->with('success', 'post updated');
+
+    }
+
     public function delete(Post $post)
     {
         if (auth()->user()->cannot('delete', $post)) {
