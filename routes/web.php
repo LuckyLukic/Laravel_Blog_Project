@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile/{user:username}', [UserController::class, "profile"]);
 
+    ROute::delete('/post/{post}', [PostController::class, "delete"]);
+
 
 });
 
