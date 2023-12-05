@@ -47,6 +47,14 @@ class UserController extends Controller
         return redirect('/')->with('success', 'Account Created');
     }
 
+    public function profile(User $user)
+    {
+        return view('profile-posts', [
+            'username' => $user->username,
+            'posts' => $user->posts()->latest()->get()
+        ]);
+    }
+
     public function showCorrectHomepage()
     {
         if (auth()->check()) {
