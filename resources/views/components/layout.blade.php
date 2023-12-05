@@ -32,7 +32,7 @@
                     <a href="#" class="mr-2"><img title="My Profile" data-toggle="tooltip" data-placement="bottom"
                             style="width: 32px; height: 32px; border-radius: 16px"
                             src="https://gravatar.com/avatar/f64fc44c03a8a7eb1d52502950879659?s=128" /></a>
-                    <a class="btn btn-sm btn-success mr-2" href="#">Create Post</a>
+                    <a class="btn btn-sm btn-success mr-2" href="/create-post">Create Post</a>
                     <form action="/logout" method="POST" class="d-inline">
                         @csrf
                         <button class="btn btn-sm btn-secondary">Sign Out</button>
@@ -80,7 +80,7 @@
     {{ $slot }};
 
     <footer class="border-top text-center small text-muted py-3">
-        <p class="m-0">Copyright &copy; {{ date(Y) }} <a href="/" class="text-muted">OurApp</a>. All
+        <p class="m-0">Copyright &copy; {{ date('Y') }} <a href="/" class="text-muted">OurApp</a>. All
             rights reserved.
         </p>
     </footer>
