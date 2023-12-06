@@ -48,7 +48,8 @@ class UserController extends Controller {
     public function profile(User $user) {
         return view('profile-posts', [
             'username' => $user->username,
-            'posts' => $user->posts()->latest()->get()
+            'posts' => $user->posts()->latest()->get(),
+            'avatar' => $user->avatar,
         ]);
     }
 
@@ -78,6 +79,17 @@ class UserController extends Controller {
         // $request->file('avatar')->store('public/avatars'); storing the real upload img size
         $imgData = Image::make($request->file('avatar'))->fit(120)->encode('jpg'); //120 = tot pix per lato
         Storage::put('public/avatars/'.$filename, $imgData);
+
+        $oldAvatar = $user->avatar;
+
+        $user->avatar = $filename;
+        $user->save();
+
+        if($oldAvatar != "/fallback-avatar.jpg") {
+            Storage::delete(str_replace("/storage/", "/public/", $oldAvatar));
+        }
+
+        return back()->with('success', 'COngrats onthe new Avatar!!');
 
     }
 }
