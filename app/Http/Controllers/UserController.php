@@ -77,7 +77,7 @@ class UserController extends Controller {
 
         // $request->file('avatar')->store('public/avatars'); storing the real upload img size
         $imgData = Image::make($request->file('avatar'))->fit(120)->encode('jpg'); //120 = tot pix per lato
-        Storage::put('public/avatars'.$filename, $imgData);
+        Storage::put('public/avatars/'.$filename, $imgData);
 
     }
 }
