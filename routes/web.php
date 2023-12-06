@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/manage-avatar', [UserController::class, 'showAvatarForm']);
 
-    Route::post('/manage-avatar', [UserController::class, 'storeAvatarForm']);
+    Route::post('/manage-avatar', [UserController::class, 'storeAvatar']);
 
 });
 
