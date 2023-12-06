@@ -6,23 +6,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
 
-    public function logout()
-    {
+    public function logout() {
 
         auth()->logout();
         return redirect('/')->with('success', 'You are logged out');
     }
-    public function login(Request $request)
-    {
+    public function login(Request $request) {
         $incomingFields = $request->validate([
             'loginusername' => 'required',
             'loginpassword' => 'required'
         ]);
 
-        if (auth()->attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) {
+        if(auth()->attempt(['username' => $incomingFields['loginusername'], 'password' => $incomingFields['loginpassword']])) {
             $request->session()->regenerate();
             return redirect('/')->with('success', 'You have successfully logged in');
         } else {
@@ -31,8 +28,7 @@ class UserController extends Controller
         }
     }
 
-    public function register(Request $request)
-    {
+    public function register(Request $request) {
         $incomingFields = $request->validate([
             'username' => ['required', 'min:3', 'max:20', Rule::unique('users', 'username')],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
@@ -47,21 +43,30 @@ class UserController extends Controller
         return redirect('/')->with('success', 'Account Created');
     }
 
-    public function profile(User $user)
-    {
+    public function profile(User $user) {
         return view('profile-posts', [
             'username' => $user->username,
             'posts' => $user->posts()->latest()->get()
         ]);
     }
 
-    public function showCorrectHomepage()
-    {
-        if (auth()->check()) {
+    public function showCorrectHomepage() {
+        if(auth()->check()) {
             return view('homepage-feed');
         } else {
             return view('homepage');
         }
+
+    }
+
+    public function showAvatarForm() {
+
+        return view('avatar-form');
+    }
+
+    public function storeAvatarForm(Request $request) {
+
+        $request->file('avatar')->store('public/avatars');
 
     }
 }

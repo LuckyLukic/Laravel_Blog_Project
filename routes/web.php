@@ -34,8 +34,9 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/post/{post}', [PostController::class, 'actuallyUpdate'])->middleware('can:update,post');
 
+    Route::get('/manage-avatar', [UserController::class, 'showAvatarForm']);
 
-
+    Route::post('/manage-avatar', [UserController::class, 'storeAvatarForm']);
 
 });
 
