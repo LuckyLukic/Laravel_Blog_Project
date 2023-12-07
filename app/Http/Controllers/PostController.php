@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
-class PostController extends Controller {
-    public function showCreateForm() {
+class PostController extends Controller
+{
+    public function showCreateForm()
+    {
 
         return view('create-post');
     }
 
-    public function storeNewPost(Request $request) {
+    public function storeNewPost(Request $request)
+    {
 
         $incomingFields = $request->validate([
             'title' => ['string', 'required', 'max:255'],
@@ -29,16 +33,19 @@ class PostController extends Controller {
 
     }
 
-    public function viewSinglePost(Post $post) {
+    public function viewSinglePost(Post $post)
+    {
         $post['body'] = strip_tags(Str::markdown($post->body));
         return view('single-post', ['post' => $post]);
     }
 
-    public function showEditForm(Post $post) {
+    public function showEditForm(Post $post)
+    {
         return view('edit-post', ['post' => $post]);
     }
 
-    public function actuallyUpdate(Post $post, Request $request) {
+    public function actuallyUpdate(Post $post, Request $request)
+    {
 
         $incomingFields = $request->validate([
             'title' => ['string', 'required'],
@@ -54,13 +61,14 @@ class PostController extends Controller {
 
     }
 
-    public function delete(Post $post) {
-        if(auth()->user()->cannot('delete', $post)) {
+    public function delete(Post $post)
+    {
+        if (auth()->user()->cannot('delete', $post)) {
             return "you can't do that!";
         }
         $post->delete();
 
-        return redirect('profile/'.auth()->user()->username)->with('success', 'Post Deleted!');
+        return redirect('profile/' . auth()->user()->username)->with('success', 'Post Deleted!');
     }
 
 
