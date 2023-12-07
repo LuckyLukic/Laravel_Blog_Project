@@ -10,7 +10,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -24,13 +25,25 @@ class User extends Authenticatable {
         'password',
     ];
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
-    protected function avatar(): Attribute {
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followeduser');
+    }
+
+    public function followingTheseUsers()
+    {
+        return $this->hasMany(Follow::class, 'user_id');
+    }
+
+    protected function avatar(): Attribute
+    {
         return Attribute::make(get: function ($value) {
-            return $value ? '/storage/avatars/'.$value : '/fallback-avatar.jpg';
+            return $value ? '/storage/avatars/' . $value : '/fallback-avatar.jpg';
         });
     }
 
