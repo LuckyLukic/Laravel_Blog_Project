@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 
 /*
@@ -37,6 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/manage-avatar', [UserController::class, 'showAvatarForm']);
 
     Route::post('/manage-avatar', [UserController::class, 'storeAvatar']);
+
+    Route::post('/create-follow/{user:username}', [FollowController::class, 'createFollow']);
+
+    Route::post('/remove-follow/{user:username}', [FollowController::class, 'removeFollow']);
 
 });
 
