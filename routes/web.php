@@ -43,6 +43,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/remove-follow/{user:username}', [FollowController::class, 'removeFollow']);
 
+    Route::get('/profile/{user:username}/followers', [UserController::class, 'profileFollowers']);
+
+    Route::get('/profile/{user:username}/following', [UserController::class, 'profileFollowing']);
+
 });
 
 Route::get('/', [UserController::class, "showCorrectHomepage"])->name('login');
