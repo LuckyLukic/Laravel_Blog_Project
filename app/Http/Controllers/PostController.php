@@ -71,5 +71,14 @@ class PostController extends Controller
         return redirect('profile/' . auth()->user()->username)->with('success', 'Post Deleted!');
     }
 
+    public function search($term)
+    {
+        $posts = POST::search($term)->get();
+        $posts->load('user:id, username, avatar');
+        return $posts;
+        //return Post::where('title', 'LIKE', '%' . $term . '%')->orWHere('body', 'LIKE', '%' . $term . '%');
+
+    }
+
 
 }

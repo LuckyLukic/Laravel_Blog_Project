@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile/{user:username}/following', [UserController::class, 'profileFollowing']);
 
+    Route::get('/search/{term}', [PostController::class, 'search']);
+
 });
 
 Route::get('/', [UserController::class, "showCorrectHomepage"])->name('login');
