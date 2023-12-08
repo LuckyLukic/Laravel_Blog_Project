@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :doctitle="$post->title">
     {{-- @include('header'); --}}
 
     <div class="container py-md-5 container--narrow">
@@ -22,7 +22,7 @@
         <p class="text-muted small mb-4">
             <a href="/profile{{ $post->user->username }}"><img class="avatar-tiny"
                     src="{{ auth()->user()->avatar }}" /></a>
-            Posted by <a href="/profile{{ $post->user->username }}">{{ $post->user->username }}</a> on
+            Posted by <a href="/profile/{{ $post->user->username }}">{{ $post->user->username }}</a> on
             {{ $post->created_at->format('j F Y') }}
         </p>
 
