@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
         broadcast(new ChatMessage(['username' => auth()->user()->username, 'textvalue' => strip_tags($request->textvalue), 'avatar' => auth()->user()->avatar]))->toOthers();
     });
 
-    ROute::middleware('cache.headers:public;max_age=20;etag')->group(function () {
+    Route::middleware('cache.headers:public;max_age=20;etag')->group(function () {
 
         Route::get('/profile/{user:username}/raw', [UserController::class, "profileRaw"]);
 
@@ -70,8 +70,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/profile/{user:username}/following/raw', [UserController::class, 'profileFollowingRaw']);
     });
-
-
 
 });
 

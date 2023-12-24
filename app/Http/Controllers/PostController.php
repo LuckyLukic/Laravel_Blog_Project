@@ -80,5 +80,37 @@ class PostController extends Controller
 
     }
 
+    //API
+
+    public function storeNewPostApi(Request $request)
+    {
+
+        $incomingFields = $request->validate([
+            'title' => ['string', 'required', 'max:255'],
+            'body' => ['string', 'required']
+        ]);
+
+        $incomingFields['title'] = strip_tags($incomingFields['title']); //sanitizing input by stripping HTML and PHP tags from a string
+        $incomingFields['body'] = strip_tags($incomingFields['body']);
+        $incomingFields['user_id'] = auth()->id();
+
+        $newPost = Post::create($incomingFields);
+
+        return $newPost->id;
+
+    }
+
+    //API
+
+    public function deleteApi(Post $post)
+    {
+        if (auth()->user()->cannot('delete', $post)) {
+            return "you can't do that!";
+        }
+        $post->delete();
+
+        return 'True';
+    }
+
 
 }

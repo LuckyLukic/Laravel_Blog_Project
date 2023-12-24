@@ -153,4 +153,23 @@ class UserController extends Controller
         return response()->json(['theHTML' => view('profile-following-only', ['following' => $user->followingTheseUsers()->latest()->get()])->render(), 'docTitle' => "Who" . $user->username . "Follows"]);
 
     }
+
+    //API
+
+    public function loginApi(Request $request)
+    {
+        $incomingFields = $request->validate([
+            'username' => 'required',
+            'passwrd' => ' required'
+        ]);
+
+        if (auth()->attempt($incomingFields)) {
+            $user = User::where('username', $incomingFields['username'])->first();
+            $token = $user->createToken('ourapptoken')->plainTestToken;
+        }
+
+        return 'sorry';
+    }
+
+
 }
